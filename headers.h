@@ -16,9 +16,9 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#define DATE_COMPLETED "24-11-2025"
-#define FILENAME "TODO.txt"
-#define USER "TODO"
+#define DATE_COMPLETED "31-03-2026"
+#define FILENAME "Group9_CMS.txt"
+#define USER "Group9"
 #define CMS "CMS"
 #define SHOW_ALL 1
 

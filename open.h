@@ -1,4 +1,4 @@
-// Done by: Tristan Tan
+// Done by: Tan Sven
 #ifndef OPEN_H
 #define OPEN_H
 
@@ -23,6 +23,6 @@ struct Record {
 
 };
 
-int open_and_read_file(struct Record **records, const char *filename);
+int execute_on_file(struct Record **records, const char *filename);
 
 #endif

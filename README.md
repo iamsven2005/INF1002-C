@@ -1,4 +1,6 @@
-make sure you make gcc
-gcc *.c -o cms
-./cms
-TODO - change all todo to group name
+gcc *.c -o cms.exe
+gcc *.c test_cms.c -o test_cms.exe
+./test_cms.exe
+bash run_integration_tests.sh
+
+./run_tests.ps1

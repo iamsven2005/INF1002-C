@@ -1,6 +1,6 @@
 #include "sort.h"
 #include <string.h>
-#include <ctype.h>  // for tolower
+#include <ctype.h>
 
 enum Field { ID, MARKS };
 enum Order { ASC, DESC };
@@ -22,7 +22,7 @@ static int compare(const struct Record* r1, const struct Record* r2, struct Comp
         else result = 0;
         break;
     default:
-        result = 0; // just in case
+        result = 0;
     }
     return (ctx->order == ASC) ? result : -result;
 }
@@ -40,7 +40,7 @@ void insertion_sort(struct Record records[], int size, struct CompareField* ctx)
     }
 }
 
-// Wrapper function to call insretion sort
+
 void sort_records(struct Record records[], int records_size, char* field, char* order) {
     if (records_size == 0) {
         printf("No records to sort.\n");

@@ -2,7 +2,6 @@
 
 // PLACE SNAPSHOTS IN SEPARATE DIRECTORY
 bool file_in_dir(const char *path, const char *snapshot_name) {
-    // check if dir exists, creates dir if not
     struct stat st = {0};
     if (stat(path, &st) == -1) {
         if (mkdir(path, 0755) != 0) {
@@ -11,7 +10,7 @@ bool file_in_dir(const char *path, const char *snapshot_name) {
         }
     }
     
-    // open dir and search for file
+
     DIR *dir = opendir(path);
     if (dir == NULL) {
         printf("Failed to open directory %s.\n", path);
@@ -28,7 +27,6 @@ bool file_in_dir(const char *path, const char *snapshot_name) {
             printf("%s\n", entry->d_name);
         }
         else {
-            // Search for specific file
             if (strcmp(entry->d_name, snapshot_name) == 0) {
                 found = true;
                 break;
@@ -81,7 +79,6 @@ bool create_snapshot(const char *snapshot_name, const char *file_path) {
         return false;
     }
 
-    // Check if DB file exists
     FILE *db_file = fopen(FILENAME, "r");
     if (db_file == NULL) {
         printf("Unable to open database file \"%s\"\n", FILENAME);
@@ -89,7 +86,7 @@ bool create_snapshot(const char *snapshot_name, const char *file_path) {
     }
 
     struct Record *records;
-    int records_size = open_and_read_file(&records, FILENAME);
+    int records_size = execute_on_file(&records, FILENAME);
 
     if (fclose(db_file) != 0) {
         printf("Error closing database file \"%s\"\n", FILENAME);
@@ -123,7 +120,7 @@ bool create_snapshot(const char *snapshot_name, const char *file_path) {
     printf("Snapshot created. Verifying...\n");
 
     struct Record *snapshot;
-    int snapshot_size = open_and_read_file(&snapshot, file_path);
+    int snapshot_size = execute_on_file(&snapshot, file_path);
 
     if (snapshot_size != records_size) {
         printf("Snapshot verification failed. Snapshot \"%s\" size does not match current record \"%s\" size.\n", 
@@ -142,7 +139,7 @@ bool create_snapshot(const char *snapshot_name, const char *file_path) {
 }
 
 
-// RESTORE FUNCTION
+
 bool restore_snapshot(const char *snapshot_name, const char *file_path) {
     // Note: validation already done in main handler
     
@@ -154,7 +151,7 @@ bool restore_snapshot(const char *snapshot_name, const char *file_path) {
     fclose(snapshot_file);
 
     struct Record *snapshot_records;
-    int snapshot_size = open_and_read_file(&snapshot_records, file_path);
+    int snapshot_size = execute_on_file(&snapshot_records, file_path);
 
     if (snapshot_size < 0) {
         printf("Unable to read from snapshot file \"%s\".\n", snapshot_name);
@@ -183,7 +180,7 @@ bool restore_snapshot(const char *snapshot_name, const char *file_path) {
     printf("Snapshot restored. Verifying...\n");
 
     struct Record *restored_records;
-    int restored_size = open_and_read_file(&restored_records, FILENAME);
+    int restored_size = execute_on_file(&restored_records, FILENAME);
 
     if (restored_size != snapshot_size) {
         printf("Restoration verification failed. Restored size does not match snapshot size.\n");

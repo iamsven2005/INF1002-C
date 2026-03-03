@@ -1,5 +1,4 @@
-// general miscellaneous functions
-# include "misc.h"
+#include "misc.h"
 
 void to_lower(char string[]){
     for (size_t i = 0; i < strlen(string); i++){
@@ -15,13 +14,12 @@ int comp(const void *a, const void *b) {
 
 void help_menu(char *input) {
     printf("\n");
-    // print help menu
     if (input == NULL) {
         printf("Usage: HELP [COMMAND]\n");
         printf("Desc: Display help menu for specified command\n");
         printf("Commands:\n");
         printf("\tOPEN\n");
-        printf("\tSHOWALL\n");
+        printf("\tSHOW ALL\n");
         printf("\tINSERT\n");
         printf("\tQUERY\n");
         printf("\tUPDATE\n");
@@ -36,8 +34,8 @@ void help_menu(char *input) {
             printf("Usage: OPEN\n");
             printf("Desc: Open database file. Database file must be opened before any other operations can be performed.\n");
         }
-        else if (strcmp(input, "showall") == 0) {
-            printf("Usage: SHOWALL\n");
+        else if (strcmp(input, "show all") == 0) {
+            printf("Usage: SHOW ALL\n");
             printf("Desc: Displays all available records.\n");
         }
         else if (strcmp(input, "insert") == 0) {
@@ -100,4 +98,49 @@ void help_menu(char *input) {
             printf("No help menu available for command %s.\n", input);
         }
     }
+}
+
+int strcasecmp_ci(const char *s1, const char *s2) {
+    while (*s1 && *s2) {
+        if (tolower(*s1) != tolower(*s2)) {
+            return tolower(*s1) - tolower(*s2);
+        }
+        s1++; s2++;
+    }
+    return tolower(*s1) - tolower(*s2);
+}
+
+int isValidID(const char *str, int *result) {
+    if (!str || str[0] == '\0') return 0;
+    char *endptr;
+    *result = (int)strtol(str, &endptr, 10);
+    return endptr != str && *endptr == '\0';
+}
+
+int isValidMarks(const char *str, float *result) {
+    char *endptr;
+    *result = strtof(str, &endptr);
+    return endptr != str && *endptr == '\0';
+}
+
+int isValidName(const char *str) {
+    if (!str || str[0] == '\0') return 0;
+    for (int i = 0; str[i]; i++) {
+        if (!isalpha(str[i]) && str[i] != ' ') return 0;
+    }
+    return 1;
+}
+
+char* find_id_value(const char *input) {
+    char *id_start = strstr(input, "ID=");
+    if (!id_start) id_start = strstr(input, "id=");
+    if (!id_start) id_start = strstr(input, "Id=");
+    return id_start ? id_start + 3 : NULL;
+}
+
+int find_record_index(struct Record *records, int size, int id) {
+    for (int i = 0; i < size; i++) {
+        if (records[i].id == id) return i;
+    }
+    return -1;
 }
