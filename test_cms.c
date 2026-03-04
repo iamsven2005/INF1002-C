@@ -12,10 +12,10 @@ int failed_tests = 0;
 
 void print_result(int test_num, const char *test_name, int passed) {
     if (passed) {
-        printf("✓ Test %d PASSED: %s\n", test_num, test_name);
+        printf("PASS Test %d: %s\n", test_num, test_name);
         passed_tests++;
     } else {
-        printf("✗ Test %d FAILED: %s\n", test_num, test_name);
+        printf("FAIL Test %d: %s\n", test_num, test_name);
         failed_tests++;
     }
 }
@@ -270,15 +270,15 @@ int main() {
     printf("Test Summary:\n");
     printf("═══════════════════════════════════════════════════════════════\n");
     printf("Total Tests: %d\n", TOTAL_TESTS);
-    printf("Passed:      %d ✓\n", passed_tests);
-    printf("Failed:      %d ✗\n", failed_tests);
+    printf("Passed:      %d\n", passed_tests);
+    printf("Failed:      %d\n", failed_tests);
     printf("Pass Rate:   %.1f%%\n", (float)passed_tests / TOTAL_TESTS * 100);
     printf("═══════════════════════════════════════════════════════════════\n\n");
     
     if (failed_tests == 0) {
-        printf("🎉 All tests passed! The CMS is working correctly.\n\n");
+        printf("All tests passed. The CMS is working correctly.\n\n");
     } else {
-        printf("⚠️  %d test(s) failed. Please review the results above.\n\n", failed_tests);
+        printf("%d test(s) failed. Please review the results above.\n\n", failed_tests);
     }
     
     printf("Cleaning up test database...\n");

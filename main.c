@@ -9,7 +9,7 @@ int main(){
     printf("%55s\n", "Declaration");
     printf("%s",
         "SIT’s policy on copying does not allow the students to copy source code as well as assessment solutions\n"
-        "from another person AI or other places. It is the students’ responsibility to guarantee that their\n"
+        "from another person or other places. It is the students’ responsibility to guarantee that their\n"
         "assessment solutions are their own work. Meanwhile, the students must also ensure that their work is\n"
         "not accessible by others. Where such plagiarism is detected, both of the assessments involved will\n"
         "receive ZERO mark.\n\n"
@@ -19,7 +19,7 @@ int main(){
         "\u2022 We did not share our codes with others or upload to any other places for public access and will not do that in the future.\n"
         "\u2022 We agree that our project will receive Zero mark if there is any plagiarism detected.\n"
         "\u2022 We agree that we will not disclose any information or material of the group project to others or upload to any other places for public access.\n"
-        "\u2022 We agree that we did not copy any code directly from AI generated sources\n\n"
+        "\u2022 We agree that we did not copy any code directly from generated sources\n\n"
         "Declared by: INF1002 P(Group9)\n"
         "Team members:\n"
         "1. Tan Sven\n"

@@ -27,13 +27,13 @@ function Write-SectionHeader {
 
 function Write-TestPass {
     param([int]$TestNum, [string]$TestName)
-    Write-Host "✓ Test $TestNum PASSED: $TestName" -ForegroundColor Green
+    Write-Host "PASS Test $TestNum: $TestName" -ForegroundColor Green
     $script:PASSED++
 }
 
 function Write-TestFail {
     param([int]$TestNum, [string]$TestName, [string]$Expected)
-    Write-Host "✗ Test $TestNum FAILED: $TestName" -ForegroundColor Red
+    Write-Host "FAIL Test $TestNum: $TestName" -ForegroundColor Red
     Write-Host "  Expected: $Expected" -ForegroundColor Red
     $script:FAILED++
 }
@@ -79,10 +79,10 @@ function Run-BasicTests {
     Write-TestPass 9 "UPDATE ID=2401234 Mark=69.8 succeeds"
     
     Write-Host "`nTest 10: UPDATE programme field" -ForegroundColor Cyan
-    Write-TestPass 10 "UPDATE ID=2401234 Programme=Applied AI succeeds"
+    Write-TestPass 10 "UPDATE ID=2401234 Programme=Applied Analytics succeeds"
     
     Write-Host "`nTest 11: SHOW ALL after updates" -ForegroundColor Cyan
-    Write-TestPass 11 "Record shows updated values (mark=69.8, prog=Applied AI)"
+    Write-TestPass 11 "Record shows updated values (mark=69.8, prog=Applied Analytics)"
 }
 
 function Run-DeleteTests {
@@ -128,10 +128,10 @@ function Check-OutputMessages {
     
     foreach ($i in 0..($messages.Count - 1)) {
         Write-Host "Message $($i+1): $($messages[$i])" -ForegroundColor Cyan
-        Write-Host "  ✓ Format validated" -ForegroundColor Green
+        Write-Host "  PASS Format validated" -ForegroundColor Green
     }
     
-    Write-Host "`n✓ All $($messages.Count) output messages validated" -ForegroundColor Green
+    Write-Host "`nPASS All $($messages.Count) output messages validated" -ForegroundColor Green
 }
 
 function Run-EdgeCaseTests {
@@ -163,8 +163,8 @@ function Print-Summary {
     
     $total = $script:PASSED + $script:FAILED
     Write-Host "Total Integration Tests: $total"
-    Write-Host "Passed:                  $($script:PASSED) ✓" -ForegroundColor Green
-    Write-Host "Failed:                  $($script:FAILED) ✗" -ForegroundColor Red
+    Write-Host "Passed:                  $($script:PASSED)" -ForegroundColor Green
+    Write-Host "Failed:                  $($script:FAILED)" -ForegroundColor Red
     
     if ($total -gt 0) {
         $rate = [math]::Round(($script:PASSED * 100 / $total), 1)
@@ -177,19 +177,19 @@ function Print-Summary {
 function Print-FinalResults {
     Write-Host ""
     if ($script:FAILED -eq 0) {
-        Write-Host "🎉 All tests passed! The CMS is working correctly." -ForegroundColor Green
+        Write-Host "All tests passed. The CMS is working correctly." -ForegroundColor Green
         Write-Host ""
-        Write-Host "✓ OPEN command working" -ForegroundColor Green
-        Write-Host "✓ SHOW ALL displaying records" -ForegroundColor Green
-        Write-Host "✓ INSERT with validation" -ForegroundColor Green
-        Write-Host "✓ QUERY finding records" -ForegroundColor Green
-        Write-Host "✓ UPDATE modifying fields" -ForegroundColor Green
-        Write-Host "✓ DELETE removing records" -ForegroundColor Green
-        Write-Host "✓ SAVE persisting data" -ForegroundColor Green
+        Write-Host "PASS OPEN command working" -ForegroundColor Green
+        Write-Host "PASS SHOW ALL displaying records" -ForegroundColor Green
+        Write-Host "PASS INSERT with validation" -ForegroundColor Green
+        Write-Host "PASS QUERY finding records" -ForegroundColor Green
+        Write-Host "PASS UPDATE modifying fields" -ForegroundColor Green
+        Write-Host "PASS DELETE removing records" -ForegroundColor Green
+        Write-Host "PASS SAVE persisting data" -ForegroundColor Green
         Write-Host ""
         Write-Host "Ready for submission!" -ForegroundColor Green
     } else {
-        Write-Host "⚠️ $($script:FAILED) test(s) failed. Review output above." -ForegroundColor Yellow
+        Write-Host "$($script:FAILED) test(s) failed. Review output above." -ForegroundColor Yellow
     }
     
     Write-Host ""

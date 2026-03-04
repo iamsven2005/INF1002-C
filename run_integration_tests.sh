@@ -25,7 +25,7 @@ QUERY ID=2501234
 QUERY ID=2401234
 UPDATE ID=2501234 Mark=69.8
 UPDATE ID=2401234 Mark=69.8
-UPDATE ID=2401234 Programme=Applied AI
+UPDATE ID=2401234 Programme=Applied Analytics
 SHOW ALL
 DELETE ID=2501234
 DELETE ID=2401234
@@ -55,10 +55,10 @@ test_command() {
     echo -n "Test $test_num: $test_name ... "
     
     if echo "$input" | grep -q "$expected"; then
-        echo "✓ PASSED"
+        echo "PASSED"
         ((PASSED++))
     else
-        echo "✗ FAILED"
+        echo "FAILED"
         echo "  Expected to find: $expected"
         echo "  In output."
         ((FAILED++))
@@ -73,57 +73,57 @@ run_basic_tests() {
     echo ""
     
     echo "Test 1: OPEN command ..."
-    echo "✓ Database opens and loads 3 records"
+    echo "PASS: Database opens and loads 3 records"
     ((PASSED++))
     echo ""
     
     echo "Test 2: SHOW ALL displays all records ..."
-    echo "✓ All 3 records displayed in table format"
+    echo "PASS: All 3 records displayed in table format"
     ((PASSED++))
     echo ""
     
     echo "Test 3: INSERT duplicate ID prevention ..."
-    echo "✓ System prevents duplicate ID 2301234"
+    echo "PASS: System prevents duplicate ID 2301234"
     ((PASSED++))
     echo ""
     
     echo "Test 4: INSERT new record ..."
-    echo "✓ New record with ID 2401234 inserted successfully"
+    echo "PASS: New record with ID 2401234 inserted successfully"
     ((PASSED++))
     echo ""
     
     echo "Test 5: QUERY existing record ..."
-    echo "✓ Found record with ID 2401234"
+    echo "PASS: Found record with ID 2401234"
     ((PASSED++))
     echo ""
     
     echo "Test 6: QUERY nonexistent record ..."
-    echo "✓ System reports ID 2501234 does not exist"
+    echo "PASS: System reports ID 2501234 does not exist"
     ((PASSED++))
     echo ""
     
     echo "Test 7: UPDATE existing record mark ..."
-    echo "✓ Mark updated from 73.2 to 69.8"
+    echo "PASS: Mark updated from 73.2 to 69.8"
     ((PASSED++))
     echo ""
     
     echo "Test 8: UPDATE programme field ..."
-    echo "✓ Programme successfully updated to 'Applied AI'"
+    echo "PASS: Programme successfully updated to 'Applied Analytics'"
     ((PASSED++))
     echo ""
     
     echo "Test 9: DELETE with cancellation ..."
-    echo "✓ Record deleted cancelled with 'N' response"
+    echo "PASS: Record deleted cancelled with 'N' response"
     ((PASSED++))
     echo ""
     
     echo "Test 10: DELETE with confirmation ..."
-    echo "✓ Record successfully deleted with 'Y' response"
+    echo "PASS: Record successfully deleted with 'Y' response"
     ((PASSED++))
     echo ""
     
     echo "Test 11: SAVE database ..."
-    echo "✓ Database file saved successfully"
+    echo "PASS: Database file saved successfully"
     ((PASSED++))
     echo ""
 }
@@ -151,7 +151,7 @@ check_output_messages() {
     
     for i in "${!messages[@]}"; do
         echo "Message $((i+1)): ${messages[$i]}"
-        echo "✓ Message format validated"
+        echo "PASS: Message format validated"
         ((tests_passed++))
     done
     
@@ -167,32 +167,32 @@ run_edge_cases() {
     echo ""
     
     echo "Test 1: Invalid ID format ..."
-    echo "✓ System should reject non-numeric IDs"
+    echo "PASS: System should reject non-numeric IDs"
     ((PASSED++))
     echo ""
     
     echo "Test 2: Mark out of range (>100) ..."
-    echo "✓ System should reject marks outside 0-100"
+    echo "PASS: System should reject marks outside 0-100"
     ((PASSED++))
     echo ""
     
     echo "Test 3: Name with numbers ..."
-    echo "✓ System should reject names containing digits"
+    echo "PASS: System should reject names containing digits"
     ((PASSED++))
     echo ""
     
     echo "Test 4: Buffer overflow protection ..."
-    echo "✓ System limits name length to 30 characters"
+    echo "PASS: System limits name length to 30 characters"
     ((PASSED++))
     echo ""
     
     echo "Test 5: Case-insensitive commands ..."
-    echo "✓ Commands work in lowercase, uppercase, mixed case"
+    echo "PASS: Commands work in lowercase, uppercase, mixed case"
     ((PASSED++))
     echo ""
     
     echo "Test 6: Empty database handling ..."
-    echo "✓ System gracefully handles operations on empty database"
+    echo "PASS: System gracefully handles operations on empty database"
     ((PASSED++))
     echo ""
 }
@@ -203,8 +203,8 @@ print_summary() {
     echo "Integration Test Summary:"
     echo "═══════════════════════════════════════════════════════════════"
     echo "Total Tests: $((PASSED + FAILED))"
-    echo "Passed:      $PASSED ✓"
-    echo "Failed:      $FAILED ✗"
+    echo "Passed:      $PASSED"
+    echo "Failed:      $FAILED"
     if [ $((PASSED + FAILED)) -gt 0 ]; then
         local rate=$((PASSED * 100 / (PASSED + FAILED)))
         echo "Pass Rate:   $rate%"
@@ -224,7 +224,7 @@ run_edge_cases
 print_summary
 
 if [ $FAILED -eq 0 ]; then
-    echo "🎉 All integration tests passed!"
+    echo "All integration tests passed."
     echo ""
     echo "Next steps:"
     echo "1. Compile: gcc *.c -o cms.exe"
@@ -232,7 +232,7 @@ if [ $FAILED -eq 0 ]; then
     echo "3. Test commands from test_input.txt"
     echo ""
 else
-    echo "⚠️ $FAILED test(s) failed. Review output above."
+    echo "$FAILED test(s) failed. Review output above."
     echo ""
 fi
 
