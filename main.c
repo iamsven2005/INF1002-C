@@ -23,6 +23,9 @@ int main(){
         "Declared by: INF1002 P(Group9)\n"
         "Team members:\n"
         "1. Tan Sven\n"
+        "2. Fong Jun\n"
+        "3. Ethan Pang\n"
+        "4. Choo Kai Jun\n"
         );
     printf("Date: %s\n\n", DATE_COMPLETED);
 
