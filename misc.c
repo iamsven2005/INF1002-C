@@ -6,6 +6,30 @@ void to_lower(char string[]){
         }
 }
 
+char* find_substring_ci(const char *haystack, const char *needle) {
+    size_t needle_len = strlen(needle);
+
+    if (needle_len == 0) {
+        return (char *)haystack;
+    }
+
+    for (const char *p = haystack; *p != '\0'; p++) {
+        size_t i = 0;
+
+        while (i < needle_len &&
+               p[i] != '\0' &&
+               tolower((unsigned char)p[i]) == tolower((unsigned char)needle[i])) {
+            i++;
+        }
+
+        if (i == needle_len) {
+            return (char *)p;
+        }
+    }
+
+    return NULL;
+}
+
 int comp(const void *a, const void *b) {
     int *row1 = (int*)a;
     int *row2 = (int*)b;
@@ -30,15 +54,15 @@ void help_menu(char *input) {
         printf("\tSUMMARY\n");
     }
     else {
-        if (strcmp(input, "open") == 0) {
+        if (strcasecmp_ci(input, "open") == 0) {
             printf("Usage: OPEN\n");
             printf("Desc: Open database file. Database file must be opened before any other operations can be performed.\n");
         }
-        else if (strcmp(input, "show all") == 0) {
+        else if (strcasecmp_ci(input, "show all") == 0) {
             printf("Usage: SHOW ALL\n");
             printf("Desc: Displays all available records.\n");
         }
-        else if (strcmp(input, "insert") == 0) {
+        else if (strcasecmp_ci(input, "insert") == 0) {
             printf("Usage: INSERT [ARGUMENT]\n");
             printf("Desc: Insert a record into the database.\n");
             printf("\tOptional values must be provided together.\n");
@@ -48,13 +72,13 @@ void help_menu(char *input) {
             printf("\t%-15sProvide Programme value (Optional).\n", "PROGRAMME=");
             printf("\t%-15sProvide Mark value (Optional).\n", "MARK=");
         }
-        else if (strcmp(input, "query") == 0) {
+        else if (strcasecmp_ci(input, "query") == 0) {
             printf("Usage: QUERY [ARGUMENT]\n");
             printf("Desc: Queries a record in the database.\n");
             printf("Arguments:\n");
             printf("\t%-15sProvide ID to query.\n", "ID=");
         }
-        else if (strcmp(input, "update") == 0) {
+        else if (strcasecmp_ci(input, "update") == 0) {
             printf("Usage: UPDATE [ARGUMENT]\n");
             printf("Desc: Updates a record in the database.\n");
             printf("Arguments:\n");
@@ -63,16 +87,16 @@ void help_menu(char *input) {
             printf("\t%-15sProgramme to be updated.\n", "Programme=");
             printf("\t%-15sMarks to be updated.\n","MARK=");
         }
-        else if (strcmp(input, "delete") == 0) {
+        else if (strcasecmp_ci(input, "delete") == 0) {
             printf("Usage: DELETE [ARGUMENT]\n");
             printf("Desc: Deletes a record from the database.\n");
             printf("Arguments:\n");
             printf("\t%-15sId of record to be deleted.\n", "ID=");
         }
-        else if (strcmp(input, "save") == 0) {
+        else if (strcasecmp_ci(input, "save") == 0) {
             printf("Usage: SAVE\n");
         }
-        else if (strcmp(input, "snapshot") == 0) {
+        else if (strcasecmp_ci(input, "snapshot") == 0) {
             printf("Usage: [COMMAND] SNAPSHOT <file_name>\n");
             printf("Desc: Show, Create, delete, or restore snapshots.\n");
             printf("Commands:\n");
@@ -81,7 +105,7 @@ void help_menu(char *input) {
             printf("\t%-15sRestores database to a previous snapshot.\n", "RESTORE");
             printf("\t%-15sDelete snapshot.\n", "DELETE");
         }
-        else if (strcmp(input, "sort") == 0) {
+        else if (strcasecmp_ci(input, "sort") == 0) {
             printf("Usage: SORT BY [ATTRIBUTE] [ORDER]");
             printf("Desc: Sort records by attribute and order.\n");
             printf("Attributes:\n");
@@ -91,7 +115,7 @@ void help_menu(char *input) {
             printf("\t%-15sAscending order.\n", "ASC");
             printf("\t%-15sDescending order.\n", "DESC");
         }
-        else if (strcmp(input, "summary") == 0) {
+        else if (strcasecmp_ci(input, "summary") == 0) {
             printf("Usage: SHOWSUMMARY\n");
         }
         else {
@@ -132,9 +156,7 @@ int isValidName(const char *str) {
 }
 
 char* find_id_value(const char *input) {
-    char *id_start = strstr(input, "ID=");
-    if (!id_start) id_start = strstr(input, "id=");
-    if (!id_start) id_start = strstr(input, "Id=");
+    char *id_start = find_substring_ci(input, "id=");
     return id_start ? id_start + 3 : NULL;
 }
 
