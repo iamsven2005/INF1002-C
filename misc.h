@@ -6,6 +6,7 @@
 void to_lower(char string[]);
 int comp(const void *a, const void *b);
 void help_menu(char *token);
+char* find_substring_ci(const char *haystack, const char *needle);
 
 // Validation helpers
 int strcasecmp_ci(const char *s1, const char *s2);
