@@ -11,7 +11,7 @@ int check_record_exists(int id, int *size, struct Record *records) {
 }
 
 
-bool insert(struct Record data, struct Record *records, int *records_size, char *token) {
+bool insert(struct Record data, struct Record *records, int *records_size, char *args) {
     data.has_id = false;
     data.has_name = false;
     data.has_prog = false;
@@ -20,18 +20,17 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
     // Method: Getting the position of the "keys" of all attributes
     // then subtract from the next key position to get the value length
     // then value = key position + key length
-    token = strtok(NULL, "");
-    if (token == NULL) {
+    if (args == NULL || *args == '\0') {
         printf("No data provided for INSERT.\n");
         return true;
     }
 
-    int token_len = strlen(token);
+    int token_len = strlen(args);
 
-    char *id_key = strstr(token, "id=");
-    char *name_key = strstr(token, "name=");
-    char *prog_key = strstr(token, "programme=");
-    char *mark_key = strstr(token, "mark=");
+    char *id_key = find_substring_ci(args, "id=");
+    char *name_key = find_substring_ci(args, "name=");
+    char *prog_key = find_substring_ci(args, "programme=");
+    char *mark_key = find_substring_ci(args, "mark=");
 
     if (id_key == NULL) {
         printf("ID field is mandatory.\n");
@@ -85,7 +84,7 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
         }
 
         if (next_key_pos == NULL) {
-            value_len = token_len - (value_pos - token);
+            value_len = token_len - (value_pos - args);
         }
         else {
             value_len = next_key_pos - value_pos - 1;
@@ -217,24 +216,6 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
         }
     }
 
-    if (data.has_name) {
-        data.name[0] = toupper((unsigned char) data.name[0]);
-
-        for (int i = 1; i <strlen(data.name); i++) {
-            if (data.name[i - 1] == ' ') {
-                data.name[i] = toupper((unsigned char) data.name[i]);
-            }
-        } 
-    }
-    if (data.has_prog){
-        data.prog[0] = toupper((unsigned char) data.prog[0]);
-
-        for (int i = 1; i <strlen(data.prog); i++) {
-            if (data.prog[i - 1] == ' ') {
-                data.prog[i] = toupper((unsigned char) data.prog[i]);
-            }
-        }
-    }
     records[*records_size] = data; 
     (*records_size)++;
 
@@ -249,4 +230,3 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
 
     return false;
 }
-
