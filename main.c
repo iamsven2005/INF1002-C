@@ -5,28 +5,32 @@ struct Record *records = NULL;
 int records_size = 0;
 
 int main(){
-    /* === DECLARTION ===*/
-    printf("%55s\n", "Declaration");
+
+
+    /* === DECLARATION ===*/
+    printf("Declaration\n");
     printf("%s",
-        "SIT’s policy on copying does not allow the students to copy source code as well as assessment solutions\n"
-        "from another person or other places. It is the students’ responsibility to guarantee that their\n"
-        "assessment solutions are their own work. Meanwhile, the students must also ensure that their work is\n"
-        "not accessible by others. Where such plagiarism is detected, both of the assessments involved will\n"
-        "receive ZERO mark.\n\n"
+        "Students are not allowed to copy assessment solutions from another person or other places, including\n"
+        "AI platforms or tools. It is the students' responsibility to guarantee that their solutions are their\n"
+        "own work. Meanwhile, the students must also ensure that their work is not accessible by others. Where\n"
+        "such plagiarism is detected, both of the assessments involved will receive ZERO mark.\n\n"
         "We hereby declare that:\n"
-        "\u2022 We fully understand and agree to the abovementioned plagiarism policy.\n"
-        "\u2022 We did not copy any code from others or from other places.\n"
-        "\u2022 We did not share our codes with others or upload to any other places for public access and will not do that in the future.\n"
-        "\u2022 We agree that our project will receive Zero mark if there is any plagiarism detected.\n"
-        "\u2022 We agree that we will not disclose any information or material of the group project to others or upload to any other places for public access.\n"
-        "\u2022 We agree that we did not copy any code directly from generated sources\n\n"
-        "Declared by: INF1002 P(Group9)\n"
+        "- We fully understand and agree to the abovementioned policy.\n"
+        "- We did not copy any materials from others or from other places, e.g., AI platforms or tools.\n"
+        "- We did not share our materials with others or upload to any other places for public access.\n"
+        "- We agree that we will not disclose any information or material of the team project to others or\n"
+        "  upload to any other places for public access.\n"
+        "- We agree that our project will receive Zero mark if any misalignment with the abovementioned\n"
+        "  policies is detected.\n\n"
+    );
+    printf("Declared by: %s\n", USER);
+    printf("%s",
         "Team members:\n"
         "1. Tan Sven\n"
         "2. Fong Jun\n"
         "3. Ethan Pang\n"
         "4. Choo Kai Jun\n"
-        );
+    );
     printf("Date: %s\n\n", DATE_COMPLETED);
 
     /* === CMS START === */
@@ -77,7 +81,6 @@ int main(){
             success = true;
         } while (!success);
 
-        to_lower(input);
         char *input_copy = strdup(input);
 
         if (input_copy == NULL) {
@@ -92,7 +95,7 @@ int main(){
             continue;
         }
 
-        if (strcmp(token, "exit") == 0) {
+        if (strcasecmp_ci(token, "exit") == 0) {
             printf("Exiting...Goodbye :)\n");
             if (file_opened) {
                 free(input_copy);
@@ -100,13 +103,16 @@ int main(){
             }
             return 0;
         }
-        else if (strcmp(token, "help") == 0) {
-            char *arg = strtok(NULL, " \n");
+        else if (strcasecmp_ci(token, "help") == 0) {
+            char *arg = strtok(NULL, "");
+            if (arg != NULL) {
+                while (*arg == ' ') arg++;
+            }
             help_menu(arg);
             free(input_copy);
             continue;
         }
-        else if (strcmp(token, "open") == 0) {
+        else if (strcasecmp_ci(token, "open") == 0) {
             char *arg = strtok(NULL, "");
             if (arg != NULL) {
                 while (*arg == ' ') arg++;
@@ -141,10 +147,11 @@ int main(){
             free(input_copy);
             continue;
         }
-        if (strstr(input, "snapshot") != NULL) {
+        if (find_substring_ci(input, "snapshot") != NULL) {
             token = strtok(NULL, " \n");
-            if (strcmp(token, "snapshot") != 0){
+            if (token == NULL || strcasecmp_ci(token, "snapshot") != 0){
                 printf("Unknown command. Use HELP to see help menu.\n");
+                free(input_copy);
                 continue;
             }
             char cwd[512] = "";
@@ -164,13 +171,13 @@ int main(){
             char *snapshot_ptr = NULL;
             char *snapshot_name = NULL;
 
-            if ((snapshot_ptr = strstr(input, "show snapshot")) != NULL) {
+            if ((snapshot_ptr = find_substring_ci(input, "show snapshot")) != NULL) {
                 printf("\nAvailable snapshots:\n");
                 file_in_dir(dir_path, NULL);
                 free(input_copy);
                 continue;
             }
-            else if ((snapshot_ptr = strstr(input, "create snapshot")) != NULL) {
+            else if ((snapshot_ptr = find_substring_ci(input, "create snapshot")) != NULL) {
                 snapshot_name = snapshot_ptr + strlen("create snapshot ");
                 while (*snapshot_name == ' ') snapshot_name++;
                 char *end = snapshot_name + strlen(snapshot_name) - 1;
@@ -195,7 +202,7 @@ int main(){
                 free(input_copy);
                 continue;
             }
-            else if ((snapshot_ptr = strstr(input, "restore snapshot")) != NULL) {
+            else if ((snapshot_ptr = find_substring_ci(input, "restore snapshot")) != NULL) {
                 snapshot_name = snapshot_ptr + strlen("restore snapshot ");
                 while (*snapshot_name == ' ') snapshot_name++;
                 char *end = snapshot_name + strlen(snapshot_name) - 1;
@@ -232,7 +239,7 @@ int main(){
                 free(input_copy);
                 continue;
             }
-            else if ((snapshot_ptr = strstr(input, "delete snapshot")) != NULL) {
+            else if ((snapshot_ptr = find_substring_ci(input, "delete snapshot")) != NULL) {
                 snapshot_name = snapshot_ptr + strlen("delete snapshot ");
                 while (*snapshot_name == ' ') snapshot_name++;
                 char *end = snapshot_name + strlen(snapshot_name) - 1;
@@ -280,13 +287,17 @@ int main(){
             free(input_copy);
             continue;
         }
-        else if (strcmp(token, "insert") == 0) {
+        else if (strcasecmp_ci(token, "insert") == 0) {
             struct Record new_record = { 0 };
-            insert(new_record, records, &records_size, token);
+            char *args = strtok(NULL, "");
+            if (args != NULL) {
+                while (*args == ' ') args++;
+            }
+            insert(new_record, records, &records_size, args);
             free(input_copy);
             continue;
         }
-        else if (strcmp(token, "query") == 0) {
+        else if (strcasecmp_ci(token, "query") == 0) {
             char* args = strtok(NULL, "");
             if (args != NULL) {
                 while (*args == ' ') args++;
@@ -299,7 +310,7 @@ int main(){
             continue;
         }
 
-        else if (strcmp(token, "update") == 0) {
+        else if (strcasecmp_ci(token, "update") == 0) {
             char* args = strtok(NULL, "");
             if (args != NULL) {
                 while (*args == ' ') args++;
@@ -312,7 +323,7 @@ int main(){
             continue;
         }
 
-        else if (strcmp(token, "delete") == 0) {
+        else if (strcasecmp_ci(token, "delete") == 0) {
             char* args = strtok(NULL, "");
             if (args != NULL) {
                 while (*args == ' ') args++;
@@ -325,13 +336,13 @@ int main(){
             continue;
         }
 
-        else if (strcmp(token, "sort") == 0) {
+        else if (strcasecmp_ci(token, "sort") == 0) {
 
             char* by = strtok(NULL, " ");
             char* field = strtok(NULL, " ");
             char* order = strtok(NULL, " ");
 
-            if (!by || !field || !order || strcmp(by, "by") != 0) {
+            if (!by || !field || !order || strcasecmp_ci(by, "by") != 0) {
                 printf("Please follow the format: SORT BY (ID / MARK) (ASC / DESC)\n");
                 free(input_copy);
                 continue;
@@ -342,23 +353,23 @@ int main(){
             continue;
         }
 
-        else if (strcmp(token, "save") == 0) {
+        else if (strcasecmp_ci(token, "save") == 0) {
             save(records, records_size, current_filename);
             free(input_copy);
             continue;
         }
 
-        else if (strcmp(token, "show all") == 0) {
+        else if (strcasecmp_ci(token, "show all") == 0) {
             showall(records, records_size);
             free(input_copy);
             continue;
         }
-        else if (strcmp(token, "show") == 0) {
+        else if (strcasecmp_ci(token, "show") == 0) {
             char *arg = strtok(NULL, " \n");
-            if (arg != NULL && strcmp(arg, "all") == 0) {
+            if (arg != NULL && strcasecmp_ci(arg, "all") == 0) {
                 showall(records, records_size);
             }
-            else if (arg != NULL && strcmp(arg, "summary") == 0) {
+            else if (arg != NULL && strcasecmp_ci(arg, "summary") == 0) {
                 showsummary(records, records_size);
             }
             else {
@@ -367,7 +378,7 @@ int main(){
             free(input_copy);
             continue;
         }
-        else if (strcmp(token, "showsummary") == 0) {
+        else if (strcasecmp_ci(token, "showsummary") == 0) {
             showsummary(records, records_size);
             free(input_copy);
             continue;
