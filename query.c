@@ -35,5 +35,5 @@ void query(struct Record* records, int records_size, const char* input) {
 
     printf("The record with ID=%d is found in the data table.\n", search_id);
     printf("%-10s %-30s %-50s%-6s\n", "ID", "Name", "Programme", "Mark");
-    printf("%-10d %-30s %-50s %-6.2f\n", records[index].id, records[index].name, records[index].prog, records[index].marks);
+    printf("%-10d %-30s %-50s %-6.1f\n", records[index].id, records[index].name, records[index].prog, records[index].marks);
 }
