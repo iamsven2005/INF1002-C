@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "headers.h"
 #include "delete.h"
-
+/*Deletes a record by student ID*/
 void delete_record(struct Record records[], int* records_size, const char* input) {
     if (*records_size == 0) {
         printf("No records available to delete.\n");
@@ -43,7 +43,7 @@ void delete_record(struct Record records[], int* records_size, const char* input
         printf("The deletion is cancelled.\n");
         return;
     }
-
+/*Replaces the deleted record with the later records*/
     for (int j = index; j < (*records_size - 1); j++) {
         records[j] = records[j + 1];
     }
