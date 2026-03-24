@@ -1,13 +1,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "headers.h"
 #include "update.h"
-
+/*Update a single field of an exisiting record using the given student ID*/
 void updateRecord(struct Record records[], int records_size, const char* input) {
     if (records_size == 0) {
         printf("No records available to update.\n");
         return;
     }
-
+/*Extract the student ID from the Update command*/
     char *id_value_start = find_id_value(input);
     if (!id_value_start) {
         printf("Missing ID. Usage: UPDATE ID=<id> <Field>=<Value>\n");
@@ -33,7 +33,7 @@ void updateRecord(struct Record records[], int records_size, const char* input) 
         printf("The record with ID=%d does not exist.\n", search_id);
         return;
     }
-
+/*Identifies which field should be updated and read its NEW value*/
     char* field_start = id_value_start;
     while (*field_start == ' ') field_start++;
 
@@ -60,7 +60,7 @@ void updateRecord(struct Record records[], int records_size, const char* input) 
         printf("Missing value for field '%s'.\n", field);
         return;
     }
-
+/*Validates the new value and update the correct field*/
     if (strcasecmp_ci(field, "Name") == 0) {
         if (!isValidName(value)) {
             printf("Invalid Name. Name must contain only letters and spaces.\n");
