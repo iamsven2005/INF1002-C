@@ -16,7 +16,7 @@ int showsummary(struct Record *records, int total_records) {
         total += records[i].marks;
         average = total / total_records;
     }
-    printf("Average marks: %.2f\n", average);
+    printf("Average marks: %.1f\n", average);
 
     int highest = 0;
     int lowest = 0;
@@ -33,8 +33,8 @@ int showsummary(struct Record *records, int total_records) {
         }
     }
 
-    printf("Highest mark: %.2f - %s\n", records[highest].marks, records[highest].name);
-    printf("Lowest mark: %.2f - %s\n", records[lowest].marks, records[lowest].name);
+    printf("Highest mark: %.1f - %s\n", records[highest].marks, records[highest].name);
+    printf("Lowest mark: %.1f - %s\n", records[lowest].marks, records[lowest].name);
     printf("\n");
     return 0;
 }
