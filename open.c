@@ -1,5 +1,5 @@
 #include "open.h"
-
+/*Opens databasse file, read each line and store the records in allocated array*/
 int execute_on_file(struct Record **records, const char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -21,7 +21,7 @@ int execute_on_file(struct Record **records, const char *filename) {
 
     while (fgets(string, sizeof(string), file)) {
         string[strcspn(string, "\n")] = 0;
-
+/*Expand record array when current capacity is full*/
         if (line_count >= capacity) {
             capacity += ARRAY_SIZE;
             struct Record *temp = realloc(*records, sizeof(struct Record) * capacity);
@@ -34,6 +34,7 @@ int execute_on_file(struct Record **records, const char *filename) {
             }
             *records = temp;
         }
+    /*Splits one CSV line into ID, Name, Programme and Mark fields*/
         char *token = strtok(string, OPEN_DELIM);
         if (token != NULL) {
             (*records)[line_count].id = atoi(token);
