@@ -157,7 +157,7 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
         }
     }
     if ((check_record_exists(data.id, records_size, records) == 1)) {
-        printf("The Record with ID=%d already exists.\n", data.id);
+        printf("The record with ID=%d already exists.\n", data.id);
         return true;
     }
     else {
