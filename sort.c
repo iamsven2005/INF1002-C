@@ -9,7 +9,7 @@ struct CompareField {
     enum Field field;
     enum Order order;
 };
-
+/*Compare 2 records based on selected field and sort order*/
 static int compare(const struct Record* r1, const struct Record* r2, struct CompareField* ctx) {
     int result = 0;
     switch (ctx->field) {
@@ -26,7 +26,7 @@ static int compare(const struct Record* r1, const struct Record* r2, struct Comp
     }
     return (ctx->order == ASC) ? result : -result;
 }
-
+/*Sort the record array in place uisng insertion_sort*/
 void insertion_sort(struct Record records[], int size, struct CompareField* ctx) {
     for (int i = 1; i < size; i++) {
         struct Record key = records[i];
@@ -40,7 +40,7 @@ void insertion_sort(struct Record records[], int size, struct CompareField* ctx)
     }
 }
 
-
+/*Valdiate the requested sort field and order, then sort*/
 void sort_records(struct Record records[], int records_size, char* field, char* order) {
     if (records_size == 0) {
         printf("No records to sort.\n");
