@@ -5,7 +5,7 @@ void to_lower(char string[]){
             string[i] = tolower((unsigned char) string[i]);
         }
 }
-
+/*Finds a substring without treating uppercase and lowercase letters differently*/
 char* find_substring_ci(const char *haystack, const char *needle) {
     size_t needle_len = strlen(needle);
 
@@ -35,7 +35,7 @@ int comp(const void *a, const void *b) {
     int *row2 = (int*)b;
     return (*row1 - *row2);
 }
-
+/*Prints the general help menu*/
 void help_menu(char *input) {
     printf("\n");
     if (input == NULL) {
@@ -123,7 +123,7 @@ void help_menu(char *input) {
         }
     }
 }
-
+/*Compares 2 strings*/
 int strcasecmp_ci(const char *s1, const char *s2) {
     while (*s1 && *s2) {
         if (tolower(*s1) != tolower(*s2)) {
@@ -133,20 +133,20 @@ int strcasecmp_ci(const char *s1, const char *s2) {
     }
     return tolower(*s1) - tolower(*s2);
 }
-
+/*Checks for valid integer ID*/
 int isValidID(const char *str, int *result) {
     if (!str || str[0] == '\0') return 0;
     char *endptr;
     *result = (int)strtol(str, &endptr, 10);
     return endptr != str && *endptr == '\0';
 }
-
+/*Checks for valid floating-point mark*/
 int isValidMarks(const char *str, float *result) {
     char *endptr;
     *result = strtof(str, &endptr);
     return endptr != str && *endptr == '\0';
 }
-
+/*Checks whether the text contains only letters and spaces*/
 int isValidName(const char *str) {
     if (!str || str[0] == '\0') return 0;
     for (int i = 0; str[i]; i++) {
@@ -154,12 +154,12 @@ int isValidName(const char *str) {
     }
     return 1;
 }
-
+/*Return porinter to the value after ID= in a command string*/
 char* find_id_value(const char *input) {
     char *id_start = find_substring_ci(input, "id=");
     return id_start ? id_start + 3 : NULL;
 }
-
+/*Search record array and return the index of matching stuedent ID*/
 int find_record_index(struct Record *records, int size, int id) {
     for (int i = 0; i < size; i++) {
         if (records[i].id == id) return i;
