@@ -1,5 +1,5 @@
 #include "headers.h"
-
+/*Displays every record stored in memory in a table format*/
 int showall(struct Record *records, int total_records) {
     printf("\n");
     printf("Here are all the records found in the table \"StudentRecords\".\n");
