@@ -56,6 +56,7 @@ int main(){
         char input[MAX_INPUT];
         bool success = false;
 
+    /*Prompts until the user enters a valid command within the input length limit*/
         do {
             printf("%s: ", USER);
             fgets(input, sizeof(input), stdin);
@@ -81,6 +82,7 @@ int main(){
             success = true;
         } while (!success);
 
+    /* Duplicate input so strtok can safely tokenize it without losing original command string */
         char *input_copy = strdup(input);
 
         if (input_copy == NULL) {
@@ -128,7 +130,7 @@ int main(){
                 records_size = 0;
             }
 
-            // call open file func
+            /* call open file func */
             records_size = execute_on_file(&records, current_filename);
 
             if (!records) {
@@ -147,6 +149,8 @@ int main(){
             free(input_copy);
             continue;
         }
+
+        /* Handle snapshot commands*/
         if (find_substring_ci(input, "snapshot") != NULL) {
             token = strtok(NULL, " \n");
             if (token == NULL || strcasecmp_ci(token, "snapshot") != 0){
@@ -282,6 +286,8 @@ int main(){
                 continue;
             }
         }
+
+    /*Stops non-file operations until database has been opened successfully.*/
         if (!file_opened) {
             printf("Open database file first.\n");
             free(input_copy);
