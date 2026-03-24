@@ -107,7 +107,7 @@ bool create_snapshot(const char *snapshot_name, const char *file_path) {
     }
 
     for (int i = 0; i < records_size; i++) {
-        fprintf(snapshot_file, "%d,%s,%s,%.2f\n", 
+        fprintf(snapshot_file, "%d,%s,%s,%.1f\n", 
                 records[i].id, records[i].name, records[i].prog, records[i].marks);
     }
 
@@ -166,7 +166,7 @@ bool restore_snapshot(const char *snapshot_name, const char *file_path) {
     }
 
     for (int i = 0; i < snapshot_size; i++) {
-        fprintf(db_file, "%d,%s,%s,%.2f\n", 
+        fprintf(db_file, "%d,%s,%s,%.1f\n", 
                 snapshot_records[i].id, snapshot_records[i].name, 
                 snapshot_records[i].prog, snapshot_records[i].marks);
     }
