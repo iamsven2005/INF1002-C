@@ -1,6 +1,6 @@
 # include "headers.h"
 # include "insert.h"
-
+/*Checks if theres a record with the same Student ID*/
 int check_record_exists(int id, int *size, struct Record *records) {
     for (int i = 0; i < *size; i++) {
         if (records[i].id == id) {
@@ -10,7 +10,7 @@ int check_record_exists(int id, int *size, struct Record *records) {
     return 0;
 }
 
-
+/* Insets new record, validate fields and storing the record in memory*/
 bool insert(struct Record data, struct Record *records, int *records_size, char *args) {
     data.has_id = false;
     data.has_name = false;
@@ -42,7 +42,7 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
         printf("Name, Prog, and Mark fields must be provided together.\n");
         return true;
     }
-    
+    /*stores detected fields and their positions, easier to identify*/
     struct Key {
         char *name;
         char *pos;
@@ -68,7 +68,7 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
 
         }
     }
-
+/*Extracts and validates the value for each provided field.*/
     for (int i = 0; i < (sizeof(keys_array)/sizeof(keys_array[0])); i++) {
         char *key_name = keys_array[i].name; 
         char *key_pos = keys_array[i].pos;
@@ -156,10 +156,12 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
             return true;
         }
     }
+    /*Rejects insert if Student ID already exists in the current records.*/
     if ((check_record_exists(data.id, records_size, records) == 1)) {
         printf("The record with ID=%d already exists.\n", data.id);
         return true;
     }
+    /*IF only ID is given, prompts the user to enter the remaining fields*/
     else {
         if (optional_count == 0) {
             char name_input[sizeof(data.name)];
@@ -215,7 +217,7 @@ bool insert(struct Record data, struct Record *records, int *records_size, char 
             return true;
         }
     }
-
+/*Stores new record and increase the total record count*/
     records[*records_size] = data; 
     (*records_size)++;
 
