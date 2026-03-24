@@ -1,5 +1,5 @@
 #include "headers.h"
-
+/*Write all current records from memory into database text*/
 int save(struct Record *records, int total_records, const char *filename) {
     FILE *file = fopen(filename, "w");
     if (file == NULL) {
