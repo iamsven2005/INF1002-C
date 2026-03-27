@@ -30,7 +30,7 @@ char* find_substring_ci(const char *haystack, const char *needle) {
     return NULL;
 }
 
-int comp(const void *a, const void *b) {
+int compare_ints(const void *a, const void *b) {
     int *row1 = (int*)a;
     int *row2 = (int*)b;
     return (*row1 - *row2);
@@ -134,23 +134,23 @@ int strcasecmp_ci(const char *s1, const char *s2) {
     return tolower(*s1) - tolower(*s2);
 }
 /*Checks for valid integer ID*/
-int isValidID(const char *str, int *result) {
-    if (!str || str[0] == '\0') return 0;
+int isValidID(const char *id_text, int *result) {
+    if (!id_text || id_text[0] == '\0') return 0;
     char *endptr;
-    *result = (int)strtol(str, &endptr, 10);
-    return endptr != str && *endptr == '\0';
+    *result = (int)strtol(id_text, &endptr, 10);
+    return endptr != id_text && *endptr == '\0';
 }
 /*Checks for valid floating-point mark*/
-int isValidMarks(const char *str, float *result) {
+int isValidMarks(const char *mark_text, float *result) {
     char *endptr;
-    *result = strtof(str, &endptr);
-    return endptr != str && *endptr == '\0';
+    *result = strtof(mark_text, &endptr);
+    return endptr != mark_text && *endptr == '\0';
 }
 /*Checks whether the text contains only letters and spaces*/
-int isValidName(const char *str) {
-    if (!str || str[0] == '\0') return 0;
-    for (int i = 0; str[i]; i++) {
-        if (!isalpha(str[i]) && str[i] != ' ') return 0;
+int isValidName(const char *name_text) {
+    if (!name_text || name_text[0] == '\0') return 0;
+    for (int i = 0; name_text[i]; i++) {
+        if (!isalpha(name_text[i]) && name_text[i] != ' ') return 0;
     }
     return 1;
 }
