@@ -4,7 +4,7 @@
 #include "headers.h"
 
 void to_lower(char string[]);
-int comp(const void *a, const void *b);
+int compare_ints(const void *a, const void *b);
 void help_menu(char *token);
 char* find_substring_ci(const char *haystack, const char *needle);
 
