@@ -90,14 +90,14 @@ int main(){
             return 1;
         }
 
-        char *token = strtok(input_copy, " ");
-        if (token == NULL) {
+        char *command = strtok(input_copy, " ");
+        if (command == NULL) {
             printf("Enter a command.\n");
             free(input_copy);
             continue;
         }
 
-        if (strcasecmp_ci(token, "exit") == 0) {
+        if (strcasecmp_ci(command, "exit") == 0) {
             printf("Exiting...Goodbye :)\n");
             if (file_opened) {
                 free(input_copy);
@@ -105,21 +105,21 @@ int main(){
             }
             return 0;
         }
-        else if (strcasecmp_ci(token, "help") == 0) {
-            char *arg = strtok(NULL, "");
-            if (arg != NULL) {
-                while (*arg == ' ') arg++;
+        else if (strcasecmp_ci(command, "help") == 0) {
+            char *help_arg = strtok(NULL, "");
+            if (help_arg != NULL) {
+                while (*help_arg == ' ') help_arg++;
             }
-            help_menu(arg);
+            help_menu(help_arg);
             free(input_copy);
             continue;
         }
-        else if (strcasecmp_ci(token, "open") == 0) {
-            char *arg = strtok(NULL, "");
-            if (arg != NULL) {
-                while (*arg == ' ') arg++;
-                if (*arg != '\0') {
-                    strncpy(current_filename, arg, sizeof(current_filename) - 1);
+        else if (strcasecmp_ci(command, "open") == 0) {
+            char *filename_arg = strtok(NULL, "");
+            if (filename_arg != NULL) {
+                while (*filename_arg == ' ') filename_arg++;
+                if (*filename_arg != '\0') {
+                    strncpy(current_filename, filename_arg, sizeof(current_filename) - 1);
                     current_filename[sizeof(current_filename) - 1] = '\0';
                 }
             }
@@ -152,8 +152,8 @@ int main(){
 
         /* Handle snapshot commands*/
         if (find_substring_ci(input, "snapshot") != NULL) {
-            token = strtok(NULL, " \n");
-            if (token == NULL || strcasecmp_ci(token, "snapshot") != 0){
+            char *snapshot_keyword = strtok(NULL, " \n");
+            if (snapshot_keyword == NULL || strcasecmp_ci(snapshot_keyword, "snapshot") != 0){
                 printf("Unknown command. Use HELP to see help menu.\n");
                 free(input_copy);
                 continue;
@@ -202,7 +202,7 @@ int main(){
                     continue;
                 }
 
-                create_snapshot(snapshot_name, file_path);
+                create_snapshot(snapshot_name, file_path, current_filename);
                 free(input_copy);
                 continue;
             }
@@ -293,7 +293,7 @@ int main(){
             free(input_copy);
             continue;
         }
-        else if (strcasecmp_ci(token, "insert") == 0) {
+        else if (strcasecmp_ci(command, "insert") == 0) {
             struct Record new_record = { 0 };
             char *args = strtok(NULL, "");
             if (args != NULL) {
@@ -303,7 +303,7 @@ int main(){
             free(input_copy);
             continue;
         }
-        else if (strcasecmp_ci(token, "query") == 0) {
+        else if (strcasecmp_ci(command, "query") == 0) {
             char* args = strtok(NULL, "");
             if (args != NULL) {
                 while (*args == ' ') args++;
@@ -316,7 +316,7 @@ int main(){
             continue;
         }
 
-        else if (strcasecmp_ci(token, "update") == 0) {
+        else if (strcasecmp_ci(command, "update") == 0) {
             char* args = strtok(NULL, "");
             if (args != NULL) {
                 while (*args == ' ') args++;
@@ -329,7 +329,7 @@ int main(){
             continue;
         }
 
-        else if (strcasecmp_ci(token, "delete") == 0) {
+        else if (strcasecmp_ci(command, "delete") == 0) {
             char* args = strtok(NULL, "");
             if (args != NULL) {
                 while (*args == ' ') args++;
@@ -342,7 +342,7 @@ int main(){
             continue;
         }
 
-        else if (strcasecmp_ci(token, "sort") == 0) {
+        else if (strcasecmp_ci(command, "sort") == 0) {
 
             char* by = strtok(NULL, " ");
             char* field = strtok(NULL, " ");
@@ -359,23 +359,23 @@ int main(){
             continue;
         }
 
-        else if (strcasecmp_ci(token, "save") == 0) {
+        else if (strcasecmp_ci(command, "save") == 0) {
             save(records, records_size, current_filename);
             free(input_copy);
             continue;
         }
 
-        else if (strcasecmp_ci(token, "show all") == 0) {
+        else if (strcasecmp_ci(command, "show all") == 0) {
             showall(records, records_size);
             free(input_copy);
             continue;
         }
-        else if (strcasecmp_ci(token, "show") == 0) {
-            char *arg = strtok(NULL, " \n");
-            if (arg != NULL && strcasecmp_ci(arg, "all") == 0) {
+        else if (strcasecmp_ci(command, "show") == 0) {
+            char *show_arg = strtok(NULL, " \n");
+            if (show_arg != NULL && strcasecmp_ci(show_arg, "all") == 0) {
                 showall(records, records_size);
             }
-            else if (arg != NULL && strcasecmp_ci(arg, "summary") == 0) {
+            else if (show_arg != NULL && strcasecmp_ci(show_arg, "summary") == 0) {
                 showsummary(records, records_size);
             }
             else {
@@ -384,7 +384,7 @@ int main(){
             free(input_copy);
             continue;
         }
-        else if (strcasecmp_ci(token, "showsummary") == 0) {
+        else if (strcasecmp_ci(command, "showsummary") == 0) {
             showsummary(records, records_size);
             free(input_copy);
             continue;
