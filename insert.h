@@ -6,6 +6,6 @@
 
 int check_record_exists(int id, int *size, struct Record *records);
 
-bool insert(struct Record data, struct Record *records, int *records_size, char *args);
+bool insert(struct Record neww_record, struct Record *records, int *records_size, char *args);
 
 #endif // !INSERT_H
