@@ -17,7 +17,7 @@ bool construct_snapshot_dir(const char *cwd, char *buffer, size_t buffer_size);
 
 bool create_snapshot(const char *snapshot_name, const char *file_path, const char *db_filename);
 
-bool restore_snapshot(const char *snapshot_name, const char *file_path);
+bool restore_snapshot(const char *snapshot_name, const char *file_path, char *restored_filename, size_t restored_filename_size);
 
 bool delete_snapshot(const char *snapshot_name, const char *file_path);
 
