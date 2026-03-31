@@ -179,7 +179,7 @@ bool create_snapshot(const char *snapshot_name, const char *file_path, const cha
     return true;
 }
 // Resotre snapshot by reading its metadata file, finding original database filename, and rewriting
-bool restore_snapshot(const char *snapshot_name, const char *file_path) {
+bool restore_snapshot(const char *snapshot_name, const char *file_path, char *restored_filename, size_t restored_filename_size) {
     char meta_path[PATH_MAX] = "";
     // Metadata filepath so the original database filename can be restored
     if (!construct_snapshot_meta_path(file_path, meta_path, sizeof(meta_path))) {
@@ -252,6 +252,11 @@ bool restore_snapshot(const char *snapshot_name, const char *file_path) {
         if (snapshot_records != NULL) free(snapshot_records);
         if (restored_records != NULL) free(restored_records);
         return false;
+    }
+
+    if (restored_filename != NULL && restored_filename_size > 0) {
+        strncpy(restored_filename, db_filename, restored_filename_size - 1);
+        restored_filename[restored_filename_size - 1] = '\0';
     }
 
     printf("Snapshot \"%s\" successfully restored to database \"%s\".\n", snapshot_name, db_filename);
