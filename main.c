@@ -147,6 +147,11 @@ int main(){
             free(input_copy);
             continue;
         }
+        if (!file_opened) {
+            printf("Open database file first.\n");
+            free(input_copy);
+            continue;
+        }
         if (find_substring_ci(input, "snapshot") != NULL) {
             char *snapshot_keyword = strtok(NULL, " \n");
             if (snapshot_keyword == NULL || strcasecmp_ci(snapshot_keyword, "snapshot") != 0){
@@ -297,11 +302,6 @@ int main(){
                 continue;
             }
         }
-        if (!file_opened) {
-            printf("Open database file first.\n");
-            free(input_copy);
-            continue;
-        }
         else if (strcasecmp_ci(command, "insert") == 0) {
             struct Record new_record = { 0 };
             char *args = strtok(NULL, "");
@@ -414,4 +414,3 @@ int main(){
 
     return 0;
 }
-
