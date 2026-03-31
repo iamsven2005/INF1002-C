@@ -98,7 +98,7 @@ void help_menu(char *input) {
         }
         else if (strcasecmp_ci(input, "snapshot") == 0) {
             printf("Usage: [COMMAND] SNAPSHOT <file_name>\n");
-            printf("Desc: Show, Create, delete, or restore snapshots.\n");
+            printf("Desc: Show, Create, delete, or restore snapshots for the currently opened database file.\n");
             printf("Commands:\n");
             printf("\t%-15sShow snapshots. Does not take file name as argument.\n", "SHOW");
             printf("\t%-15sCreate a snapshot of the current database file.\n", "CREATE");
