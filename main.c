@@ -56,7 +56,6 @@ int main(){
         char input[MAX_INPUT];
         bool success = false;
 
-    /*Prompts until the user enters a valid command within the input length limit*/
         do {
             printf("%s: ", USER);
             fgets(input, sizeof(input), stdin);
@@ -82,7 +81,6 @@ int main(){
             success = true;
         } while (!success);
 
-    /* Duplicate input so strtok can safely tokenize it without losing original command string */
         char *input_copy = strdup(input);
 
         if (input_copy == NULL) {
@@ -130,7 +128,7 @@ int main(){
                 records_size = 0;
             }
 
-            /* call open file func */
+            // call open file func
             records_size = execute_on_file(&records, current_filename);
 
             if (!records) {
@@ -149,8 +147,6 @@ int main(){
             free(input_copy);
             continue;
         }
-
-        /* Handle snapshot commands*/
         if (find_substring_ci(input, "snapshot") != NULL) {
             char *snapshot_keyword = strtok(NULL, " \n");
             if (snapshot_keyword == NULL || strcasecmp_ci(snapshot_keyword, "snapshot") != 0){
@@ -239,7 +235,22 @@ int main(){
                     continue;
                 }
 
-                restore_snapshot(snapshot_name, file_path);
+                if (restore_snapshot(snapshot_name, file_path, current_filename, sizeof(current_filename))) {
+                    if (records != NULL) {
+                        free(records);
+                        records = NULL;
+                    }
+
+                    records_size = execute_on_file(&records, current_filename);
+                    if (records == NULL || records_size < 0) {
+                        printf("Snapshot restored, but failed to reload database file \"%s\" into memory.\n", current_filename);
+                        file_opened = false;
+                    }
+                    else {
+                        file_opened = true;
+                        printf("The restored database file \"%s\" is successfully reopened.\n", current_filename);
+                    }
+                }
                 free(input_copy);
                 continue;
             }
@@ -286,8 +297,6 @@ int main(){
                 continue;
             }
         }
-
-    /*Stops non-file operations until database has been opened successfully.*/
         if (!file_opened) {
             printf("Open database file first.\n");
             free(input_copy);
@@ -405,3 +414,4 @@ int main(){
 
     return 0;
 }
+
